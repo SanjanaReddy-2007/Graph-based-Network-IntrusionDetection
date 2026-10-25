@@ -1,0 +1,9 @@
+# Fast sanity run on real data (a few minutes with torch on a GPU): fewer seeds, smaller graph.
+inherit: default.yaml
+seeds: [0, 1, 2]
+subsample: {benign_cap_per_day: 15000, attack_cap_per_label_day: 5000}
+train: {epochs: 60, patience: 10}
+rf: {n_estimators: 50, max_train_samples: 80000}
+overlap: {host_levels: [1.0, 0.5, 0.0], edge_levels: [1.0, 0.5, 0.0], two_hop_sample: 1000}
+ablation: {topologies: [original, rewire, none]}
+stats: {bootstrap_B: 200}

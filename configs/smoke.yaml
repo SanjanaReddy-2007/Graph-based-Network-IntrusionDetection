@@ -1,0 +1,16 @@
+# Used by tests / `python run.py --experiment smoke` on SYNTHETIC data only. Not for reporting.
+inherit: default.yaml
+paths:
+  raw_dir: data/synthetic_raw
+  processed_dir: data/synthetic_processed
+  cache_dir: data/synthetic_cache
+  results_dir: results_smoke
+seeds: [0, 1, 2]
+subsample: {enabled: false}
+train: {backend: numpy, epochs: 40, patience: 8, lr: 0.01}
+model: {hidden: 16}
+rf: {n_estimators: 25}
+graph: {window_seconds: 300, neighbors_per_type: 3, max_degree: 10}
+overlap: {host_levels: [1.0, 0.5, 0.0], edge_levels: [1.0, 0.5, 0.0], two_hop_sample: 300, heavy_host_frac: 0.03}
+ablation: {topologies: [original, rewire, random, shuffle, none]}
+stats: {bootstrap_B: 50}

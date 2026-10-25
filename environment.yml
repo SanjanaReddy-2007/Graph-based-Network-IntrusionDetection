@@ -1,0 +1,16 @@
+name: cn-overlap-nids
+channels: [conda-forge, defaults]
+dependencies:
+  - python=3.11
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - matplotlib
+  - pyyaml
+  - tabulate
+  - pip
+  - pip:
+      - python-docx
+      - python-pptx
+      # - torch   # install the build matching your CUDA version from pytorch.org

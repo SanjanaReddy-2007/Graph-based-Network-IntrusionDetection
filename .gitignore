@@ -1,0 +1,8 @@
+data/raw/
+data/processed/
+data/cache/
+data/synthetic_*/
+results_smoke/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/

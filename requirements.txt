@@ -1,0 +1,11 @@
+numpy>=1.24
+pandas>=1.5
+scipy>=1.10
+scikit-learn>=1.2
+matplotlib>=3.7
+pyyaml>=6.0
+python-docx>=1.0      # report.docx
+python-pptx>=0.6.21   # slides.pptx
+tabulate>=0.9         # optional (markdown tables)
+# GPU/CPU deep-learning back-end (optional but strongly recommended; without it a slower numpy back-end is used):
+# pip install torch          (see https://pytorch.org/get-started/locally/ for the CUDA build)

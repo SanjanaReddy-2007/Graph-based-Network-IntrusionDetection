@@ -1,0 +1,73 @@
+# ---------------------------------------------------------------------------
+# Default configuration (laptop-friendly). All sections can be overridden on the CLI:
+#   python run.py --experiment protocols --set train.epochs=60 --set seeds=[0,1,2]
+# ---------------------------------------------------------------------------
+paths:
+  raw_dir: data/raw            # unzip GeneratedLabelledFlows.zip here
+  processed_dir: data/processed
+  cache_dir: data/cache
+  results_dir: results
+
+seeds: [0, 1, 2, 3, 4]         # >=5 seeds per configuration
+models: [rf, mlp, sage]
+
+data:
+  encodings: [cp1252, utf-8, latin-1]
+  fix_am_pm: true              # hours < am_pm_hour_threshold are afternoon (+12h)
+  am_pm_hour_threshold: 8
+  drop_duplicates: true
+  rare_labels: [Heartbleed, Infiltration, "Web Attack - Sql Injection"]
+
+subsample:                     # set enabled: false for the full ~2.8M flows (needs lots of RAM / a GPU)
+  enabled: true
+  benign_cap_per_day: 40000
+  attack_cap_per_label_day: 12000
+  seed: 42
+
+graph:                         # node = flow; edges = shared src IP / dst IP / (src,dst) within a time window
+  window_seconds: 300
+  neighbors_per_type: 5        # most recent predecessors per entity type
+  max_degree: 20               # cap: keep the k nearest-in-time neighbours
+  entity_types: [src, dst, pair]
+
+model:
+  hidden: 64                   # GraphSAGE hidden width; MLP width is solved to match parameters (+-5 %)
+  dropout: 0.2
+  param_tol: 0.05
+
+train:
+  backend: auto                # auto = torch if installed else numpy; or: torch | numpy
+  device: auto                 # auto | cpu | cuda
+  epochs: 150
+  patience: 20
+  lr: 0.005
+  weight_decay: 1.0e-5
+
+rf:
+  n_estimators: 100
+  max_depth: null
+  min_samples_leaf: 1
+  max_train_samples: 200000
+
+protocols:
+  list: [P1, P2, P3]
+  split: {train: 0.6, val: 0.2, test: 0.2}
+  temporal:
+    train_days: [Monday, Tuesday, Wednesday]
+    test_days: [Thursday, Friday]
+    val_fraction: 0.15         # latest slice of the training period used for validation
+
+overlap:
+  two_hop_sample: 3000
+  host_levels: [1.0, 0.75, 0.5, 0.25, 0.0]
+  edge_levels: [1.0, 0.75, 0.5, 0.25, 0.0]
+  test_frac: 0.25
+  val_frac: 0.15
+  heavy_host_frac: 0.005       # hosts touching >=0.5 % of flows are always shared (attacker, servers)
+
+ablation:
+  topologies: [original, rewire, random, shuffle, none]
+
+stats:
+  bootstrap_B: 500
+  ci: 0.95
