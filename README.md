@@ -1,8 +1,5 @@
 # Quantifying Structural Overlap in Graph-Based Network Intrusion Detection
 
-*Separating relational information from evaluation artifacts* - Computer Networks Lab [BCE308P]
-Are Sanjana Reddy (24BDS0187), Chelintha Lingam T (24BCE2098)
-
 Do GNN-based NIDS beat flow-level classifiers because of **genuine relational information**, or because random
 train/test splits create **structural overlap** (shared hosts, shared neighbourhoods, cross-split edges)?
 This repository measures that overlap and tests two hypotheses neutrally:
